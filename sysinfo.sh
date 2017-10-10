@@ -1,4 +1,4 @@
-\#!/bin/bash
+#!/bin/bash
 while true; do
 flag=0
 now=`date`
