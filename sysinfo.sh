@@ -22,14 +22,17 @@ if [ $flag -eq 1 ];then
 		echo "--------------------------------------------------"
 		echo "Username : "$USER
 		cat /proc/version | awk '{print "OS : "$1,$2,$3}'
-		uptime | sed -e 's/  / /g' | grep '[0-9]:[0-9][0-9], [0-9]' -o | awk '{print "Uptime : "$0}'
-		ifconfig | grep 'inet addr:192.[0-9.//]*' -o | grep '[0-9.//]*' -o | awk '{print "IP : "$1}'
+		uptime | sed -e 's/  / /g' | awk '{print "Uptime : "$3,$4}'
+		hostname -I | awk '{print "IP : "$0}'
 		cat /etc/hostname | awk '{print "Hostname : "$1}'
 		printf "Press [Enter] key to continue..."
 		read enter
 		flag=0
 	elif [ $input -eq 2 ];then
-		lscpu | sed -e 's/Architecture:/ /' | grep 'x.*' -o | awk 'NR==1{print "Machine Hardware : "$1}'
+		echo "--------------------------------------------------"
+		echo "     Hardware List"
+		echo "--------------------------------------------------"
+		lscpu |  grep 'x.*' -o | awk 'NR==1{print "Machine Hardware : "$1}'
 		sudo lshw -short
 		printf "Press [Enter] key to continue..."
 		read enter
@@ -50,7 +53,7 @@ if [ $flag -eq 1 ];then
 		echo "*************************************"
 		echo "     Top 10 cpu eating process"
 		echo "*************************************"
-		ps aux --sort=-%mem | head -n 10
+		ps aux --sort=-%cpu | head -n 11
 		printf "Press [Enter] key to continue..."
 		read enter
 		flag=0
@@ -87,6 +90,11 @@ if [ $flag -eq 1 ];then
 	elif [ $input -eq 5 ];then
 		echo "Bye Bye...."
 		exit;
+	else
+		echo "Please input the correct input"
+		printf "Press [Enter] key to continue..."
+		read enter
+		flag=0
 	fi
 fi
 fi
